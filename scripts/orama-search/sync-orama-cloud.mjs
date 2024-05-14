@@ -56,7 +56,7 @@ const emptyOramaIndex = async () =>
   await fetch(`${ORAMA_API_BASE_URL}/snapshot`, {
     method: 'POST',
     headers: oramaHeaders,
-    body: JSON.stringify([]),
+    body: JSON.stringify([{ id: '1' }]),
   });
 
 // Now we proceed to call the APIs in order:
@@ -65,7 +65,6 @@ const emptyOramaIndex = async () =>
 // 3. Trigger a deployment
 // Once all these steps are done, the new documents will be available in the live index.
 // Allow Orama up to 1 minute to distribute the documents to all the 300+ nodes worldwide.
-console.log(INDEX_ID);
 await emptyOramaIndex();
 await runUpdate();
 await triggerDeployment();
