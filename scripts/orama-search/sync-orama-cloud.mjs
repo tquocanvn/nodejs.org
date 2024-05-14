@@ -34,7 +34,6 @@ const insertBatch = async batch => {
     headers: oramaHeaders,
     body: JSON.stringify({ upsert: batch }),
   });
-  console.log('Insert done');
 }
 
 // We call the "deploy" API to trigger a deployment of the index, which will process all the documents in the queue.
@@ -67,9 +66,6 @@ const emptyOramaIndex = async () =>
 // Once all these steps are done, the new documents will be available in the live index.
 // Allow Orama up to 1 minute to distribute the documents to all the 300+ nodes worldwide.
 console.log(INDEX_ID);
-console.log('Empty');
 await emptyOramaIndex();
-console.log('Update');
 await runUpdate();
-console.log('Deploy');
 await triggerDeployment();
