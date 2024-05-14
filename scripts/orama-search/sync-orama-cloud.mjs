@@ -22,28 +22,32 @@ const runUpdate = async () => {
     batches.push(siteContent.slice(i, i + batchSize));
   }
 
-  console.log(batches);
-
   await Promise.all(batches.map(insertBatch));
 };
 
 // We call the "notify" API to upsert the documents in the index.
 // Orama will keep a queue of all the documents we send, and will process them once we call the "deploy" API.
 // Full docs on the "notify" API: https://docs.oramasearch.com/cloud/data-sources/custom-integrations/webhooks#updating-removing-inserting-elements-in-a-live-index
-const insertBatch = async batch =>
+const insertBatch = async batch => {
   await fetch(`${ORAMA_API_BASE_URL}/notify`, {
     method: 'POST',
     headers: oramaHeaders,
     body: JSON.stringify({ upsert: batch }),
   });
+  console.log('Insert done');
+}
 
 // We call the "deploy" API to trigger a deployment of the index, which will process all the documents in the queue.
 // Full docs on the "deploy" API: https://docs.oramasearch.com/cloud/data-sources/custom-integrations/webhooks#deploying-the-index
-const triggerDeployment = async () =>
+const triggerDeployment = async () => {
+  
   await fetch(`${ORAMA_API_BASE_URL}/deploy`, {
     method: 'POST',
     headers: oramaHeaders,
   });
+
+  console.log('Deploy done');
+}
 
 // We call the "snapshot" API to empty the index before inserting the new documents.
 // The "snapshot" API is typically used to replace the entire index with a fresh set of documents, but we use it here to empty the index.
@@ -62,6 +66,10 @@ const emptyOramaIndex = async () =>
 // 3. Trigger a deployment
 // Once all these steps are done, the new documents will be available in the live index.
 // Allow Orama up to 1 minute to distribute the documents to all the 300+ nodes worldwide.
+console.log(INDEX_ID);
+console.log('Empty');
 await emptyOramaIndex();
+console.log('Update');
 await runUpdate();
+console.log('Deploy');
 await triggerDeployment();
