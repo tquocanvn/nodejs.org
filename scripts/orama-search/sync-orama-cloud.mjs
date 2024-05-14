@@ -29,6 +29,7 @@ const runUpdate = async () => {
 // Orama will keep a queue of all the documents we send, and will process them once we call the "deploy" API.
 // Full docs on the "notify" API: https://docs.oramasearch.com/cloud/data-sources/custom-integrations/webhooks#updating-removing-inserting-elements-in-a-live-index
 const insertBatch = async batch => {
+  console.log(batch);
   await fetch(`${ORAMA_API_BASE_URL}/notify`, {
     method: 'POST',
     headers: oramaHeaders,
