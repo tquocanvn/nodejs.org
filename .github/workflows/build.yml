@@ -129,3 +129,6 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: |
           npm run sync-orama
+        env:
+          ORAMA_INDEX_ID: ${{ secrets.ORAMA_INDEX_ID }}
+          ORAMA_SECRET_KEY: $${{ secrets.ORAMA_SECRET_KEY }}
