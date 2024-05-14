@@ -22,6 +22,8 @@ const runUpdate = async () => {
     batches.push(siteContent.slice(i, i + batchSize));
   }
 
+  console.log(batches);
+
   await Promise.all(batches.map(insertBatch));
 };
 
