@@ -56,7 +56,7 @@ const emptyOramaIndex = async () =>
   await fetch(`${ORAMA_API_BASE_URL}/snapshot`, {
     method: 'POST',
     headers: oramaHeaders,
-    body: JSON.stringify([{ id: '1' }]),
+    body: '',
   });
 
 // Now we proceed to call the APIs in order:
